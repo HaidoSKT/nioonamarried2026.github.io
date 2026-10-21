@@ -58,35 +58,40 @@ window.SURPRISE_CONFIG = {
     title: "Our Favorite Memories 📸",
     subtitle: "Every moment by your side is a memory I will cherish forever.",
     
-    // 🎥 ROMANTIC VIDEO SETTINGS
-    // You can drop your video into the "videos/" folder (e.g. "videos/video.mp4")
-    // or use a YouTube embed link like "https://www.youtube.com/embed/VIDEO_ID"
-    video: {
-      enabled: true,
-      title: "A Special Video For You 🎥",
-      url: "videos/video.mp4", // Replace with your video file name or YouTube URL
-      caption: "Every second with you is my happiest memory 🎬💖"
-    },
+    // 🎥 ROMANTIC VIDEOS (Saved locally in videos/ folder)
+    videos: [
+      {
+        url: "videos/terranova.mp4",
+        title: "Terranova With My GIRLFRIENDDDD 🎬💖",
+        caption: "Terranova with my favorite person in the whole world 💖"
+      },
+      {
+        url: "videos/marugame_udon.mp4",
+        title: "Timelapse Makan Marugame Udon 🍜✨",
+        caption: "Timelapse makan Marugame Udon bareng sayang 🍜🥰"
+      }
+    ],
 
+    // 📸 POLAROID PHOTOS (Saved locally in images/ folder)
     photos: [
       {
-        url: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=700&q=80",
-        caption: "The day everything felt like magic ✨",
+        url: "images/photo1.jpg",
+        caption: "You and me, always my favorite memory 🌸",
         rotation: "-3deg"
       },
       {
-        url: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=700&q=80",
-        caption: "My favorite view will always be you 🌸",
-        rotation: "2deg"
+        url: "images/photo2.jpg",
+        caption: "My prettiest view in the entire world ✨",
+        rotation: "2.5deg"
       },
       {
-        url: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=700&q=80",
-        caption: "Our endless laughs and sweet memories 🧸",
+        url: "images/photo3.jpg",
+        caption: "Every little smile of yours lights up my day 🧸",
         rotation: "-2deg"
       },
       {
-        url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=700&q=80",
-        caption: "Forever and always my person 💖",
+        url: "images/photo4.jpg",
+        caption: "Forever grateful for you, my dearest Onaa 💖",
         rotation: "3deg"
       }
     ],

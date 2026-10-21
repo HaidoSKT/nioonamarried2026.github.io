@@ -536,50 +536,57 @@
     if (!videoContainer) return;
     videoContainer.innerHTML = '';
 
-    const videoConfig = config.finalSurprise.video;
-    if (!videoConfig || !videoConfig.enabled || !videoConfig.url) {
-      return;
+    // Support both an array of videos or a single video object
+    let videoList = [];
+    if (Array.isArray(config.finalSurprise.videos)) {
+      videoList = config.finalSurprise.videos;
+    } else if (config.finalSurprise.video && config.finalSurprise.video.url) {
+      videoList = [config.finalSurprise.video];
     }
 
-    const card = document.createElement('div');
-    card.className = 'video-card';
+    videoList.forEach(videoConfig => {
+      if (!videoConfig || !videoConfig.url) return;
 
-    let mediaHtml = '';
-    const url = videoConfig.url.trim();
+      const card = document.createElement('div');
+      card.className = 'video-card';
 
-    // Check if YouTube URL
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      let embedUrl = url;
-      if (url.includes('watch?v=')) {
-        const videoId = url.split('watch?v=')[1].split('&')[0];
-        embedUrl = `https://www.youtube.com/embed/${videoId}`;
-      } else if (url.includes('youtu.be/')) {
-        const videoId = url.split('youtu.be/')[1].split('?')[0];
-        embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      let mediaHtml = '';
+      const url = videoConfig.url.trim();
+
+      // Check if YouTube URL
+      if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        let embedUrl = url;
+        if (url.includes('watch?v=')) {
+          const videoId = url.split('watch?v=')[1].split('&')[0];
+          embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        } else if (url.includes('youtu.be/')) {
+          const videoId = url.split('youtu.be/')[1].split('?')[0];
+          embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        }
+        mediaHtml = `
+          <div class="video-wrapper">
+            <iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        `;
+      } else {
+        // Local MP4, WebM, MOV, or direct video file URL
+        mediaHtml = `
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="${url}">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        `;
       }
-      mediaHtml = `
-        <div class="video-wrapper">
-          <iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-      `;
-    } else {
-      // Local MP4, WebM, MOV, or direct video file URL
-      mediaHtml = `
-        <div class="video-wrapper">
-          <video controls playsinline preload="metadata">
-            <source src="${url}">
-            Your browser does not support the video tag.
-          </video>
-        </div>
-      `;
-    }
 
-    card.innerHTML = `
-      ${mediaHtml}
-      ${videoConfig.caption ? `<div class="video-caption">${videoConfig.caption}</div>` : ''}
-    `;
+      card.innerHTML = `
+        ${mediaHtml}
+        ${videoConfig.caption ? `<div class="video-caption">${videoConfig.caption}</div>` : ''}
+      `;
 
-    videoContainer.appendChild(card);
+      videoContainer.appendChild(card);
+    });
   }
 
   function renderPhotoGallery() {
