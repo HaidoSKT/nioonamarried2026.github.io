@@ -602,7 +602,7 @@
         <div class="polaroid-img-wrapper">
           <img src="${photo.url}" alt="Memory ${idx + 1}" loading="lazy" />
         </div>
-        <div class="polaroid-caption">${photo.caption}</div>
+        ${photo.caption ? `<div class="polaroid-caption">${photo.caption}</div>` : ''}
       `;
 
       polaroid.addEventListener('click', () => {
