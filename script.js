@@ -9,7 +9,7 @@
   // 1. SOUND & AUDIO (Custom MP3 Audio Player + Web Audio Synthesizer Fallback)
   // ---------------------------------------------------------------------------
   let audioCtx = null;
-  let audioElement = null;
+  let audioEl = null;
   let isMusicPlaying = false;
   let musicInterval = null;
 
@@ -23,14 +23,13 @@
   }
 
   function initAudioElement() {
-    if (!audioElement && config.music && config.music.url) {
-      audioElement = new Audio(config.music.url);
-      audioElement.loop = true;
-      audioElement.volume = 0.65;
-      audioElement.addEventListener('error', () => {
-        console.warn('Custom audio file not found. Falling back to ambient music box.');
-        audioElement = null;
-      });
+    if (!audioEl) {
+      audioEl = document.getElementById('bg-audio');
+      if (audioEl && config.music && config.music.url) {
+        audioEl.src = config.music.url;
+        audioEl.volume = 0.7;
+        audioEl.loop = true;
+      }
     }
   }
 
@@ -84,16 +83,21 @@
   function startMusic() {
     initAudio();
     if (isMusicPlaying) return;
-    const btn = document.getElementById('music-toggle');
 
     initAudioElement();
+    const banner = document.getElementById('music-banner');
+    const statusText = document.getElementById('music-status');
+    const toggleIcon = document.getElementById('music-toggle');
 
-    if (audioElement) {
-      audioElement.play().then(() => {
+    if (audioEl && config.music && config.music.url) {
+      audioEl.play().then(() => {
         isMusicPlaying = true;
-        btn.classList.add('playing');
-        btn.innerText = '🎶';
+        if (banner) banner.classList.add('playing');
+        if (toggleIcon) toggleIcon.innerText = '🎶';
+        if (statusText) statusText.innerText = 'Playing 💖';
       }).catch(err => {
+        console.warn('Audio play prevented or blocked:', err);
+        if (statusText) statusText.innerText = 'Tap to play 🎵';
         playSynthesizedMusic();
       });
     } else {
@@ -103,13 +107,17 @@
 
   // Stop background music
   function stopMusic() {
-    const btn = document.getElementById('music-toggle');
-    isMusicPlaying = false;
-    btn.classList.remove('playing');
-    btn.innerText = '🎵';
+    const banner = document.getElementById('music-banner');
+    const statusText = document.getElementById('music-status');
+    const toggleIcon = document.getElementById('music-toggle');
 
-    if (audioElement) {
-      audioElement.pause();
+    isMusicPlaying = false;
+    if (banner) banner.classList.remove('playing');
+    if (toggleIcon) toggleIcon.innerText = '🎵';
+    if (statusText) statusText.innerText = 'Tap to play 🎵';
+
+    if (audioEl) {
+      audioEl.pause();
     }
     if (musicInterval) {
       clearInterval(musicInterval);
@@ -127,10 +135,14 @@
 
   // Ambient romantic lofi music box loop (C Major pentatonic chords)
   function playSynthesizedMusic() {
-    const btn = document.getElementById('music-toggle');
+    const banner = document.getElementById('music-banner');
+    const toggleIcon = document.getElementById('music-toggle');
+    const statusText = document.getElementById('music-status');
+
     isMusicPlaying = true;
-    btn.classList.add('playing');
-    btn.innerText = '🎶';
+    if (banner) banner.classList.add('playing');
+    if (toggleIcon) toggleIcon.innerText = '🎶';
+    if (statusText) statusText.innerText = 'Playing 💖';
 
     const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
     let step = 0;
@@ -769,7 +781,11 @@
   document.addEventListener('DOMContentLoaded', () => {
     // Inject dynamic texts from config
     document.getElementById('recipient-name-game2').innerText = config.recipientName;
-    document.getElementById('music-toggle').addEventListener('click', toggleBackgroundMusic);
+    // Music banner toggle
+    const musicBanner = document.getElementById('music-banner');
+    if (musicBanner) {
+      musicBanner.addEventListener('click', toggleBackgroundMusic);
+    }
 
     // Initialize all components
     initAmbientCanvas();

@@ -17,10 +17,17 @@
   <!-- Floating Sparkles & Stars Canvas -->
   <canvas id="ambient-canvas"></canvas>
 
-  <!-- Romantic Ambient Music Toggle -->
-  <button id="music-toggle" class="music-toggle" aria-label="Toggle Romantic Music" title="Play Romantic Music">
-    🎵
-  </button>
+  <!-- Hidden Native Audio Element (High Mobile Compatibility) -->
+  <audio id="bg-audio" loop preload="auto" playsinline></audio>
+
+  <!-- Romantic Music Player Banner -->
+  <div id="music-banner" class="music-banner" title="Click to play / pause music">
+    <div id="music-toggle" class="music-toggle">🎵</div>
+    <div class="music-info">
+      <span class="music-title">Stay 💖</span>
+      <span id="music-status" class="music-sub">Tap to play 🎵</span>
+    </div>
+  </div>
 
   <!-- Main Viewport Container -->
   <main class="app-container">
@@ -162,8 +169,8 @@
 
   </main>
 
-  <!-- Load Config & App Script -->
-  <script src="config.js"></script>
-  <script src="script.js"></script>
+  <!-- Load Config & App Script (with cache buster) -->
+  <script src="config.js?v=3"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>
