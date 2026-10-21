@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A Special Surprise For You 🎀</title>
+
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Floating Sparkles & Stars Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Romantic Ambient Music Toggle -->
+  <button id="music-toggle" class="music-toggle" aria-label="Toggle Romantic Music" title="Play Romantic Music">
+    🎵
+  </button>
+
+  <!-- Main Viewport Container -->
+  <main class="app-container">
+
+    <!-- ======================================================================
+         SCREEN 1: WORD SEARCH GAME ("SWEET, CUTE, LOVE")
+         ====================================================================== -->
+    <section id="screen-game1" class="screen active">
+      <div class="game-header">
+        <h1 class="game-title">Let's play a little game 🎀</h1>
+        <p class="game-subtitle">
+          Connect the letters to find three words that always come to my mind whenever I think of you.
+        </p>
+        <p class="game-hint">(Hint: SWEET, CUTE, LOVE)</p>
+
+        <!-- Status Badges -->
+        <div id="word-badges" class="word-badges"></div>
+      </div>
+
+      <!-- 5x5 Word Grid -->
+      <div class="word-grid-container">
+        <div id="word-grid" class="word-grid"></div>
+      </div>
+
+      <!-- Completion Banner -->
+      <div class="success-banner">
+        <p id="game1-success-text" class="success-text">
+          The stars align perfect. You may proceed. ✨
+        </p>
+      </div>
+
+      <!-- Unlock Next Button -->
+      <button id="game1-next-btn" class="romantic-btn">
+        Reveal Next ✨
+      </button>
+    </section>
+
+
+    <!-- ======================================================================
+         SCREEN 2: THE CONFESSION LETTER
+         ====================================================================== -->
+    <section id="screen-confession" class="screen">
+      <div class="confession-card-wrapper">
+        <!-- Floating 3D Envelope Seal Badge -->
+        <div class="letter-envelope-badge">💌</div>
+
+        <div class="confession-card">
+          <h2 class="game-title">My Confession 💌</h2>
+          <div id="letter-body" class="letter-body">
+            <!-- Dynamically populated from config.js -->
+          </div>
+        </div>
+
+        <!-- Read On Button -->
+        <button id="confession-next-btn" class="romantic-btn">
+          Read On 🌸
+        </button>
+      </div>
+    </section>
+
+
+    <!-- ======================================================================
+         SCREEN 3: EMOJI MATCHING MEMORY GAME
+         ====================================================================== -->
+    <section id="screen-game2" class="screen">
+      <div class="game-header">
+        <h1 class="game-title">A Little Challenge 🧩</h1>
+        <p class="game-subtitle">
+          Let's play one more quick game, <span id="recipient-name-game2" style="font-weight: 700; color: var(--primary-pink);">Onaa</span>! Match all the cute emojis to unlock the final surprise I have for you.
+        </p>
+        <div class="stats-bar">
+          <span>Pairs Matched: <strong id="pairs-count" style="color: var(--primary-pink);">0 / 8</strong></span>
+        </div>
+      </div>
+
+      <!-- 4x4 Memory Card Grid -->
+      <div class="memory-grid-container">
+        <div id="memory-grid" class="memory-grid"></div>
+      </div>
+
+      <!-- Completion Banner -->
+      <div class="success-banner">
+        <p id="game2-success-text" class="success-text">
+          You matched all of them! You're amazing 💖
+        </p>
+      </div>
+
+      <!-- Unlock Final Surprise Button -->
+      <button id="game2-next-btn" class="romantic-btn">
+        One Last Thing ✨
+      </button>
+    </section>
+
+
+    <!-- ======================================================================
+         SCREEN 4: FINAL SURPRISE PHOTO SCRAPBOOK & LOVE NOTE
+         ====================================================================== -->
+    <section id="screen-surprise" class="screen">
+      <div class="scrapbook-container">
+        <div class="game-header">
+          <h1 class="game-title">Our Favorite Moments 📸</h1>
+          <p class="game-subtitle">
+            Every moment by your side is a memory I will cherish forever.
+          </p>
+        </div>
+
+        <!-- Featured Romantic Video (Configurable in config.js) -->
+        <div id="video-container" style="width: 100%;"></div>
+
+        <!-- Polaroid Photo Gallery -->
+        <div id="photo-gallery" class="photo-gallery">
+          <!-- Populated from config.js -->
+        </div>
+
+        <!-- Final Love Note Card -->
+        <div class="final-love-card">
+          <p>
+            "No matter where life takes us, my heart will always choose you. I love you so much! ❤️"
+          </p>
+          <button id="send-love-btn" class="romantic-btn visible">
+            Send You A Thousand Hearts 💖
+          </button>
+        </div>
+
+        <!-- Local Preview Helpers (For testing photos and videos easily) -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 16px;">
+          <label for="video-uploader" class="customizer-drawer-btn" title="Quick preview with your video">
+            🎥 Choose Video (Preview)
+          </label>
+          <input type="file" id="video-uploader" accept="video/*" style="display: none;">
+
+          <label for="photo-uploader" class="customizer-drawer-btn" title="Quick preview with your real photos">
+            📷 Choose Photos (Preview)
+          </label>
+          <input type="file" id="photo-uploader" accept="image/*" multiple style="display: none;">
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Load Config & App Script -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
