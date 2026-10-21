@@ -7,6 +7,15 @@ window.SURPRISE_CONFIG = {
   // Her name or pet name
   recipientName: "Onaa",
 
+  // 🎵 BACKGROUND MUSIC
+  // You can drop an MP3 into the "audio/" folder (e.g. "audio/song.mp3")
+  // or paste an online direct link to any MP3!
+  music: {
+    enabled: true,
+    url: "audio/song.mp3", // Change this to your song file name or direct MP3 URL
+    autoPlayOnFirstTap: true // Plays automatically as soon as she taps the screen!
+  },
+
   // 🎀 GAME 1: Word Search
   game1: {
     title: "Let's play a little game 🎀",

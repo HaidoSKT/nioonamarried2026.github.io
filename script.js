@@ -6,9 +6,10 @@
   const config = window.SURPRISE_CONFIG;
 
   // ---------------------------------------------------------------------------
-  // 1. SOUND & AUDIO (Web Audio API Synthesizer - No external MP3 needed!)
+  // 1. SOUND & AUDIO (Custom MP3 Audio Player + Web Audio Synthesizer Fallback)
   // ---------------------------------------------------------------------------
   let audioCtx = null;
+  let audioElement = null;
   let isMusicPlaying = false;
   let musicInterval = null;
 
@@ -18,6 +19,18 @@
     }
     if (audioCtx.state === 'suspended') {
       audioCtx.resume();
+    }
+  }
+
+  function initAudioElement() {
+    if (!audioElement && config.music && config.music.url) {
+      audioElement = new Audio(config.music.url);
+      audioElement.loop = true;
+      audioElement.volume = 0.65;
+      audioElement.addEventListener('error', () => {
+        console.warn('Custom audio file not found. Falling back to ambient music box.');
+        audioElement = null;
+      });
     }
   }
 
@@ -67,33 +80,69 @@
     });
   }
 
-  // Ambient romantic lofi music box loop (C Major pentatonic chords)
-  function toggleBackgroundMusic() {
+  // Start background music (Custom MP3 or Ambient Synth)
+  function startMusic() {
     initAudio();
+    if (isMusicPlaying) return;
     const btn = document.getElementById('music-toggle');
 
-    if (isMusicPlaying) {
-      isMusicPlaying = false;
-      btn.classList.remove('playing');
-      btn.innerText = '🎵';
-      if (musicInterval) clearInterval(musicInterval);
+    initAudioElement();
+
+    if (audioElement) {
+      audioElement.play().then(() => {
+        isMusicPlaying = true;
+        btn.classList.add('playing');
+        btn.innerText = '🎶';
+      }).catch(err => {
+        playSynthesizedMusic();
+      });
     } else {
-      isMusicPlaying = true;
-      btn.classList.add('playing');
-      btn.innerText = '🎶';
-
-      const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
-      let step = 0;
-
-      // Soft arpeggio pattern
-      const pattern = [0, 2, 4, 7, 4, 2, 1, 3, 5, 7, 5, 3];
-      musicInterval = setInterval(() => {
-        if (!isMusicPlaying) return;
-        const noteFreq = scale[pattern[step % pattern.length] % scale.length];
-        playNote(noteFreq, 'sine', 0.9, 0.08);
-        step++;
-      }, 340);
+      playSynthesizedMusic();
     }
+  }
+
+  // Stop background music
+  function stopMusic() {
+    const btn = document.getElementById('music-toggle');
+    isMusicPlaying = false;
+    btn.classList.remove('playing');
+    btn.innerText = '🎵';
+
+    if (audioElement) {
+      audioElement.pause();
+    }
+    if (musicInterval) {
+      clearInterval(musicInterval);
+      musicInterval = null;
+    }
+  }
+
+  function toggleBackgroundMusic() {
+    if (isMusicPlaying) {
+      stopMusic();
+    } else {
+      startMusic();
+    }
+  }
+
+  // Ambient romantic lofi music box loop (C Major pentatonic chords)
+  function playSynthesizedMusic() {
+    const btn = document.getElementById('music-toggle');
+    isMusicPlaying = true;
+    btn.classList.add('playing');
+    btn.innerText = '🎶';
+
+    const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
+    let step = 0;
+    const pattern = [0, 2, 4, 7, 4, 2, 1, 3, 5, 7, 5, 3];
+
+    if (musicInterval) clearInterval(musicInterval);
+    musicInterval = setInterval(() => {
+      if (!isMusicPlaying) return;
+      const noteFreq = scale[pattern[step % pattern.length] % scale.length];
+      playNote(noteFreq, 'sine', 0.9, 0.08);
+      step++;
+    }, 340);
   }
 
   // ---------------------------------------------------------------------------
@@ -678,8 +727,14 @@
     // Start on Screen 1
     goToScreen('screen-game1');
 
-    // First user gesture triggers audio context
-    window.addEventListener('click', () => initAudio(), { once: true });
+    // First user gesture triggers audio & starts romantic music
+    const handleFirstGesture = () => {
+      initAudio();
+      if (config.music && config.music.autoPlayOnFirstTap && !isMusicPlaying) {
+        startMusic();
+      }
+    };
+    window.addEventListener('pointerdown', handleFirstGesture, { once: true });
   });
 
 })();
