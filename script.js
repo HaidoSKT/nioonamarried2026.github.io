@@ -209,7 +209,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // 3. SCREEN SWITCHER
+  // 3. SCREEN SWITCHER & DEV CHEAT SHORTCUTS
   // ---------------------------------------------------------------------------
   function goToScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -218,6 +218,60 @@
       target.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  }
+
+  // 🛠️ Developer shortcuts for easy testing:
+  window.skipTo = goToScreen;
+  window.skipAll = () => goToScreen('screen-surprise');
+
+  function initDevShortcuts() {
+    // 1. URL Hash shortcut (e.g. site.com/#surprise)
+    const hash = window.location.hash.toLowerCase();
+    if (hash === '#surprise' || hash === '#final' || hash === '#photos') {
+      goToScreen('screen-surprise');
+    } else if (hash === '#confession' || hash === '#letter') {
+      goToScreen('screen-confession');
+    } else if (hash === '#game2' || hash === '#emojis') {
+      goToScreen('screen-game2');
+    }
+
+    // 2. Keyboard Number Shortcuts: 1, 2, 3, 4 (or 'S' for surprise)
+    window.addEventListener('keydown', (e) => {
+      // Ignore if user is typing in an input
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      if (e.key === '1') goToScreen('screen-game1');
+      if (e.key === '2') goToScreen('screen-confession');
+      if (e.key === '3') goToScreen('screen-game2');
+      if (e.key === '4' || e.key.toLowerCase() === 's') {
+        goToScreen('screen-surprise');
+        shootConfetti();
+      }
+    });
+
+    // 3. Secret Triple-Click on any Title Header to skip to next stage!
+    document.querySelectorAll('.game-title').forEach(title => {
+      let clicks = 0;
+      let timer = null;
+      title.addEventListener('click', () => {
+        clicks++;
+        clearTimeout(timer);
+        timer = setTimeout(() => { clicks = 0; }, 800);
+        if (clicks >= 3) {
+          clicks = 0;
+          playSuccessChime();
+          const active = document.querySelector('.screen.active');
+          if (!active || active.id === 'screen-game1') {
+            goToScreen('screen-confession');
+          } else if (active.id === 'screen-confession') {
+            goToScreen('screen-game2');
+          } else if (active.id === 'screen-game2') {
+            goToScreen('screen-surprise');
+            shootConfetti();
+          }
+        }
+      });
+    });
   }
 
   // ---------------------------------------------------------------------------
@@ -723,6 +777,7 @@
     initConfession();
     initGame2();
     initFinalSurprise();
+    initDevShortcuts();
 
     // Start on Screen 1
     goToScreen('screen-game1');

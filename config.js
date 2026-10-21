@@ -8,11 +8,10 @@ window.SURPRISE_CONFIG = {
   recipientName: "Onaa",
 
   // 🎵 BACKGROUND MUSIC
-  // You can drop an MP3 into the "audio/" folder (e.g. "audio/song.mp3")
-  // or paste an online direct link to any MP3!
+  // Direct Discord CDN Stream for "Stay"
   music: {
     enabled: true,
-    url: "audio/song.mp3", // Change this to your song file name or direct MP3 URL
+    url: "https://cdn.discordapp.com/attachments/864790420605370371/1562463097766154353/Stay_E6BhRecqovY.mp3?ex=6ada14a7&is=6ad8c327&hm=e90cf42fd7bb69d48b415890119190c112f8920637550a51293d23307dfe6f15&",
     autoPlayOnFirstTap: true // Plays automatically as soon as she taps the screen!
   },
 
