@@ -569,11 +569,11 @@
           </div>
         `;
       } else {
-        // Local MP4, WebM, MOV, or direct video file URL
+        // Direct video URL (MP4 / WebM / CDN links)
         mediaHtml = `
           <div class="video-wrapper">
-            <video controls playsinline preload="metadata">
-              <source src="${url}">
+            <video controls playsinline preload="auto" src="${url}" style="width: 100%; border-radius: 12px; max-height: 480px; background: #000;">
+              <source src="${url}" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
