@@ -4,8 +4,8 @@
 // ==============================================================================
 
 window.SURPRISE_CONFIG = {
-  // Her name or pet name (e.g. "Winona", "Babe", "Princess", "My Love")
-  recipientName: "Winona",
+  // Her name or pet name
+  recipientName: "Onaa",
 
   // 🎀 GAME 1: Word Search
   game1: {
@@ -33,10 +33,12 @@ window.SURPRISE_CONFIG = {
     badge: "💌",
     title: "My Confession 💌",
     paragraphs: [
-      "I love how comfortable it is to be around you. Even on my most tiring days, just seeing a text from you is always enough to make me smile.",
-      "I honestly didn't plan for this to happen, but lately, I find myself looking for you in everything. I'm constantly thinking about your laugh, the warmth of your smile, and how you make even the ordinary days feel so special.",
-      "Thank you for being my safe space, my favorite notification, and the sweetest part of my day.",
-      "Every single memory with you is something I hold close to my heart. But wait, I prepared one more little surprise for you..."
+      "HAIII ONAAA HOW ARE YOU DOINGG?!?!?! TODAY IS 22 OCTOBER... our third anniversary... I'm really sorry about yesterday.. I'm such an egoistical person.. an evil person.. It seems like I've always wanting something to just be like my ways... I know I'm so selfish..",
+      "I've prepared this gift for you yaa sayang.. I've always find myself looking for you in every part in Surabaya and every part in my life... You know.. seeing your notification is the best thing that had come to me for this time... It's been two months yaa since we're LDR.. I hope that we could last forever.. I know that you're my red line..",
+      "Semoga kamu disana kuat ya sayang.. I always come and pray for you.. before bed.. mwah.. I hope you stay healthy.. and I hope that you pass your IELTS Exam laterrr :DDD MWAAAHH",
+      "Thank you for being my safe space for all this time.. My favorite notification.. My favorite smile.. My favorite scent.. And for being the sweetest part of my entire life..",
+      "I love you Onaa... Agnes Adonnara.. ❤️",
+      "— From Beloved Nio 💖"
     ],
     nextButtonText: "Read On 🌸"
   },
@@ -51,10 +53,21 @@ window.SURPRISE_CONFIG = {
     nextButtonText: "One Last Thing ✨"
   },
 
-  // 📸 STEP 4: The Final Surprise Photo Scrapbook
+  // 📸 STEP 4: The Final Surprise Photo Scrapbook & Video
   finalSurprise: {
     title: "Our Favorite Memories 📸",
     subtitle: "Every moment by your side is a memory I will cherish forever.",
+    
+    // 🎥 ROMANTIC VIDEO SETTINGS
+    // You can drop your video into the "videos/" folder (e.g. "videos/video.mp4")
+    // or use a YouTube embed link like "https://www.youtube.com/embed/VIDEO_ID"
+    video: {
+      enabled: true,
+      title: "A Special Video For You 🎥",
+      url: "videos/video.mp4", // Replace with your video file name or YouTube URL
+      caption: "Every second with you is my happiest memory 🎬💖"
+    },
+
     photos: [
       {
         url: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=700&q=80",
@@ -77,7 +90,7 @@ window.SURPRISE_CONFIG = {
         rotation: "3deg"
       }
     ],
-    closingLoveNote: "No matter where life takes us, my heart will always choose you. I love you so much! ❤️",
+    closingLoveNote: "No matter the distance between Surabaya and wherever you are, my heart will always choose you. Happy 3rd Anniversary, Onaa! ❤️",
     interactiveButton: "Send You A Thousand Hearts 💖"
   }
 };

@@ -350,6 +350,22 @@
     config.confession.paragraphs.forEach(p => {
       const pEl = document.createElement('p');
       pEl.innerText = p;
+
+      if (p.startsWith('— From') || p.startsWith('- From')) {
+        pEl.style.textAlign = 'right';
+        pEl.style.fontWeight = '700';
+        pEl.style.fontFamily = 'var(--font-serif)';
+        pEl.style.color = 'var(--primary-pink)';
+        pEl.style.marginTop = '14px';
+        pEl.style.fontSize = '1.05rem';
+      } else if (p.includes('I love you Onaa')) {
+        pEl.style.fontWeight = '700';
+        pEl.style.fontFamily = 'var(--font-serif)';
+        pEl.style.fontSize = '1.1rem';
+        pEl.style.color = 'var(--accent-rose)';
+        pEl.style.marginTop = '10px';
+      }
+
       letterBody.appendChild(pEl);
     });
 
@@ -466,9 +482,10 @@
   }
 
   // ---------------------------------------------------------------------------
-  // 7. STEP 4: FINAL SURPRISE PHOTO GALLERY
+  // 7. STEP 4: FINAL SURPRISE PHOTO GALLERY & VIDEO
   // ---------------------------------------------------------------------------
   function initFinalSurprise() {
+    renderVideoCard();
     renderPhotoGallery();
 
     const finalBtn = document.getElementById('send-love-btn');
@@ -477,6 +494,24 @@
       shootConfetti();
       spawnFloatingHearts(20);
     });
+
+    // Local Video Preview feature
+    const videoInput = document.getElementById('video-uploader');
+    if (videoInput) {
+      videoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          if (!config.finalSurprise.video) {
+            config.finalSurprise.video = { enabled: true };
+          }
+          config.finalSurprise.video.enabled = true;
+          config.finalSurprise.video.url = URL.createObjectURL(file);
+          config.finalSurprise.video.caption = file.name.replace(/\.[^/.]+$/, "") + " 🎬💖";
+          renderVideoCard();
+          shootConfetti();
+        }
+      });
+    }
 
     // Local Photo Preview feature (so user can drop their own photos right in the browser)
     const fileInput = document.getElementById('photo-uploader');
@@ -494,6 +529,57 @@
         }
       });
     }
+  }
+
+  function renderVideoCard() {
+    const videoContainer = document.getElementById('video-container');
+    if (!videoContainer) return;
+    videoContainer.innerHTML = '';
+
+    const videoConfig = config.finalSurprise.video;
+    if (!videoConfig || !videoConfig.enabled || !videoConfig.url) {
+      return;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'video-card';
+
+    let mediaHtml = '';
+    const url = videoConfig.url.trim();
+
+    // Check if YouTube URL
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      let embedUrl = url;
+      if (url.includes('watch?v=')) {
+        const videoId = url.split('watch?v=')[1].split('&')[0];
+        embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      } else if (url.includes('youtu.be/')) {
+        const videoId = url.split('youtu.be/')[1].split('?')[0];
+        embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      }
+      mediaHtml = `
+        <div class="video-wrapper">
+          <iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      `;
+    } else {
+      // Local MP4, WebM, MOV, or direct video file URL
+      mediaHtml = `
+        <div class="video-wrapper">
+          <video controls playsinline preload="metadata">
+            <source src="${url}">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      `;
+    }
+
+    card.innerHTML = `
+      ${mediaHtml}
+      ${videoConfig.caption ? `<div class="video-caption">${videoConfig.caption}</div>` : ''}
+    `;
+
+    videoContainer.appendChild(card);
   }
 
   function renderPhotoGallery() {

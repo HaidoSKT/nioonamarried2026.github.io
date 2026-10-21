@@ -89,7 +89,7 @@
       <div class="game-header">
         <h1 class="game-title">A Little Challenge 🧩</h1>
         <p class="game-subtitle">
-          Let's play one more quick game, <span id="recipient-name-game2" style="font-weight: 700; color: var(--primary-pink);">Winona</span>! Match all the cute emojis to unlock the final surprise I have for you.
+          Let's play one more quick game, <span id="recipient-name-game2" style="font-weight: 700; color: var(--primary-pink);">Onaa</span>! Match all the cute emojis to unlock the final surprise I have for you.
         </p>
         <div class="stats-bar">
           <span>Pairs Matched: <strong id="pairs-count" style="color: var(--primary-pink);">0 / 8</strong></span>
@@ -127,6 +127,9 @@
           </p>
         </div>
 
+        <!-- Featured Romantic Video (Configurable in config.js) -->
+        <div id="video-container" style="width: 100%;"></div>
+
         <!-- Polaroid Photo Gallery -->
         <div id="photo-gallery" class="photo-gallery">
           <!-- Populated from config.js -->
@@ -142,11 +145,18 @@
           </button>
         </div>
 
-        <!-- Local Photo Swap Tester (For testing your own photos easily) -->
-        <label for="photo-uploader" class="customizer-drawer-btn" title="Quick preview with your real photos">
-          📷 Swap Photos (Preview in browser)
-        </label>
-        <input type="file" id="photo-uploader" accept="image/*" multiple style="display: none;">
+        <!-- Local Preview Helpers (For testing photos and videos easily) -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 16px;">
+          <label for="video-uploader" class="customizer-drawer-btn" title="Quick preview with your video">
+            🎥 Choose Video (Preview)
+          </label>
+          <input type="file" id="video-uploader" accept="video/*" style="display: none;">
+
+          <label for="photo-uploader" class="customizer-drawer-btn" title="Quick preview with your real photos">
+            📷 Choose Photos (Preview)
+          </label>
+          <input type="file" id="photo-uploader" accept="image/*" multiple style="display: none;">
+        </div>
       </div>
     </section>
 
